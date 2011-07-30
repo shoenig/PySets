@@ -66,11 +66,7 @@ class QueueSet(object):
             self.bdata[self.next_num] = item
             return retval
         else:
-            if self.bdata[self.low_num] != item:
-                n = self.data[item]
-                del self.data[item]
-                del self.bdata[n]
-                self.enqueue(item, False)
+            return False
         
 
     def poll(self):
@@ -87,47 +83,53 @@ class QueueSet(object):
         return r
 
     def isdisjoint(self, other):
+        """True is self is setwise disjoint with other, False otherwise."""
         for x in self.data:
             if x in other:
                 return False
         return True
 
     def issubset(self, other):
+        """True is self is a subset of other, False otherwise."""
         for x in self.data:
             if not x in other:
                 return False
         return True
 
     def union(self, other):
+        """Returns a QueueSet of the union of self and other."""
         a = self.data if len(self.data) > other.data else other.data
         b = self.data if len(self.data) <= other.data else other.data
         r = QueueSet(a)
         for x in b:
-            r.push(x)
+            r.enqueue(x)
         return r
 
     def intersection(self, other):
+        """Returns a QueueSet of the intersection of self and other."""
         r = QueueSet()
         for x in self.data:
             if x in other:
-                r.push(x)
+                r.enqueue(x)
         return r
 
     def difference(self, other):
+        """Returns a QueueSet of the difference of self and other."""
         r = QueueSet()
         for x in self.data:
             if not x in other:
-                r.push(x)
+                r.enqueue(x)
         return r
 
     def symmetric_difference(self, other):
+        """Returns a QueueSet of the symmetric difference of self and other."""
         r = QueueSet()
         for x in self.data:
             if not x in other:
-                r.push(x)
+                r.enqueue(x)
         for x in other.data:
             if not x in self:
-                r.push(x)
+                r.enqueue(x)
         return r
 
     def clear(self):

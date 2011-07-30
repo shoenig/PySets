@@ -85,18 +85,21 @@ class StackSet(object):
         return r
 
     def isdisjoint(self, other):
+        """Returns True if self and other are setwise disjoint, False otherwise."""
         for x in self.data:
             if x in other:
                 return False
         return True
 
     def issubset(self, other):
+        """Returns True if self is a subset of other, False otherwise."""
         for x in self.data:
             if not x in other:
                 return False
         return True
 
     def union(self, other):
+        """Returns a StackSet of the union of self and other."""
         a = self.data if len(self.data) > other.data else other.data
         b = self.data if len(self.data) <= other.data else other.data
         r = StackSet(a)
@@ -105,6 +108,7 @@ class StackSet(object):
         return r
 
     def intersection(self, other):
+        """Returns a StackSet of the intersection between self and other."""
         r = StackSet()
         for x in self.data:
             if x in other:
@@ -112,6 +116,7 @@ class StackSet(object):
         return r
 
     def difference(self, other):
+        """Returns a StackSet of the set difference of self and other."""
         r = StackSet()
         for x in self.data:
             if not x in other:
@@ -119,6 +124,7 @@ class StackSet(object):
         return r
 
     def symmetric_difference(self, other):
+        """Returns a StackSet of the symmetric difference of self and other."""
         r = StackSet()
         for x in self.data:
             if not x in other:
